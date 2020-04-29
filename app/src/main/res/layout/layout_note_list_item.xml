@@ -38,7 +38,7 @@
         android:layout_weight="20"
         android:id="@+id/note_timestamp"
         android:textSize="17sp"
-        android:lines="1"
+
         android:padding="10dp"
         />
 
