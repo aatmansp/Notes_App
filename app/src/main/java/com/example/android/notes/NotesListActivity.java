@@ -78,6 +78,8 @@ public class NotesListActivity extends AppCompatActivity implements NotesRecycle
         startActivity(intent);
     }
 
+
+    
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(this , NoteActivity.class);
