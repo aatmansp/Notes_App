@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.android.notes.models.Note;
+import com.example.android.notes.persistence.NoteRepository;
 
 public class NoteActivity extends AppCompatActivity implements View.OnTouchListener, GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener, View.OnClickListener {
 
@@ -38,6 +39,7 @@ public class NoteActivity extends AppCompatActivity implements View.OnTouchListe
     private Note mInitialNote;
     private GestureDetector mGestureDetector;
     private int mMode;
+    private NoteRepository mNoteRepository;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,7 @@ public class NoteActivity extends AppCompatActivity implements View.OnTouchListe
         mCheck = findViewById(R.id.toolbar_check);
         mBackArrow = findViewById(R.id.toolbar_back_arrow);
 
+        mNoteRepository = new NoteRepository(this);
 
 
         if(getIncomingIntent()){
@@ -89,6 +92,19 @@ public class NoteActivity extends AppCompatActivity implements View.OnTouchListe
         mMode = EDIT_MODE_ENABLED;
         mIsNewNote = true;
         return true;
+    }
+
+    private void saveChanges(){
+        if(mIsNewNote){
+            saveNewNote();
+        }
+        else{
+
+        }
+    }
+
+    private void saveNewNote(){
+        mNoteRepository.insertNoteTask(mInitialNote);
     }
 
     private void disableContentInteraction(){
@@ -129,6 +145,8 @@ public class NoteActivity extends AppCompatActivity implements View.OnTouchListe
         mMode = EDIT_MODE_DISABLED;
 
         disableContentInteraction();
+
+        saveChanges();
 
 
     }
