@@ -1,6 +1,7 @@
 package com.example.android.notes.adapters;
 
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.notes.R;
 import com.example.android.notes.models.Note;
+import com.example.android.notes.util.Utility;
 
 import java.util.ArrayList;
 
 public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdapter.ViewHolder>{
 
+    private static final String TAG = "NotesRecyclerAdapter";
     public NotesRecyclerAdapter(ArrayList<Note> notes , OnNoteListener onNoteListener){
 
         this.mNotes = notes;
@@ -36,8 +39,19 @@ public class NotesRecyclerAdapter extends RecyclerView.Adapter<NotesRecyclerAdap
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
 
-        viewHolder.timestamp.setText(mNotes.get(i).getTimeStamp());
-        viewHolder.title.setText((mNotes.get(i).getTitle()));
+        try{
+            String month = mNotes.get(i).getTimeStamp().substring(0 , 2);
+            month= Utility.getMonthFromNumber(month);
+            String year = mNotes.get(i).getTimeStamp().substring(3);
+            String timeStamp = month+" "+year;
+            viewHolder.timestamp.setText(timeStamp);
+            viewHolder.title.setText((mNotes.get(i).getTitle()));
+        }
+        catch (NullPointerException e){
+            Log.e(TAG, "onBindViewHolder: NullPointerException " + e.getMessage());
+        }
+
+
     }
 
     @Override
